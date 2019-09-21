@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    .red{
+        color: red;
+    }
+    </style>
+</head>
+<body>
+    <ul>
+        <button id="btn">999</button>
+        <button id="btn">999</button>
+        <button id="btn">888</button>
+        <button id="btn">777</button>
+        <!-- 过了3秒之后 -->
+        <!-- <button id="btn">777</button> -->
+    </ul>
+    <script>
+        const btns = document.querySelectorAll('.btn')
+        // console.log(bnts.length);
+        // for(){
+        //     btn.addEventListener;
+        // }
+    const btnNode = document.getElementById('btn');
+    let status = false;
+    btnNode.addEventListener('click',()=>{
+        let likeCount = btnNode.innerText;
+        let likeCountNum = parseInt(likeCount);
+        if(!status){
+            likeCountNum += 1
+            btnNode.classList.add('red');
+            status = true;
+        }else{
+            likeCountNum -=1;
+            btnNode.classList.remove('red');
+            status = false;
+        }
+        btnNode.innerText = likeCountNum;
+    });
+
+    //OOP
+    function LikeDislikeBtn(defaultCount,status){
+        this.defaultCount = defaultCount;
+        this.status = status;
+        this.initDOM();
+    }
+    // console.log(LikeDislikeBtn.prototype);  
+    LikeDislikeBtn.prototype.initDOM = function(){
+        this.btnNode = document.createElement('button');
+        var textNode = document.createTextNode(this.defaultCount);
+        this.btnNode.appendChild(textNode);
+        if(this.status){
+            this.btnNode.classList.add('red');
+        }
+        this.initEvent();
+    }
+    LikeDislikeBtn.prototype.initEvent = function(){
+        this.btnNode.addEventListener('click',()=>{
+            // let status = false;
+            let likeCount = this.btnNode.innerText;
+            let likeCountNum = parseInt(likeCount);
+            if(!this.status){
+                likeCountNum+=1;
+                this.btnNode.classList.add('red');
+                this.status = true;
+            }else{
+                likeCountNum-=1;
+                this.btnNode.classList.remove('red');
+                this.status = false;
+            }
+            this.btnNode.innerText = likeCountNum;
+        })
+    }
+
+    var btn = new LikeDislikeBtn(999,false);
+    console.log(btn);
+    for(let i=0;i<10;i++){
+        let btn = new LikeDislikeBtn(999,false);
+        document.body.appendChild(btn.btnNode);
+    }
+    //btn:{status:,defaultCount:,btnNode:}
+    </script>
+</body>
+</html>
